@@ -5,13 +5,19 @@ def calc_pi_ab(alpha, beta):
     return beta/(alpha+beta), alpha/(alpha+beta)
 
 def calc_sigma(pi_a, pi_b, mu_a, mu_b, sigma_a, sigma_b):
-    return pi_a*(sigma_a**2) + pi_b*(sigma_b**2) + pi_a*pi_b*(mu_a-mu_b)**2
+    return (pi_a*(sigma_a**2) + pi_b*(sigma_b**2) + pi_a*pi_b*(mu_a-mu_b)**2)**0.5
 
 def calc_autocorr_const(pi_a, pi_b, mu_a, mu_b, sigma):
+    print("pi_a = ", pi_a)
+    print("pi_b = ", pi_b)
+    print("sigma = ", sigma)
     return pi_a*pi_b*(mu_a-mu_b)**2 / sigma**2
 
 def calc_nu(phi, c):
-    d = (1+(1-2*c)*phi**2)/(2*phi*(1-c))
+    print("c = ", c)
+    print("phi = ", phi)
+    d = (1+(1-2*c)*(phi**2)) / (2*phi*(1-c))
+    print('d = ', d)
     return d - (d**2 - 1)**0.5
 
 def calc_phi_vector(p, phi, nu):
@@ -33,6 +39,10 @@ def generate_ar_weights(alpha, beta, mu_a, mu_b, sigma_a, sigma_b, p):
 
 def indicator_signal(phi_vector, return_vector, p, a=1):
     signal = 0
-    for i in range(0, p):
-        signal += a * phi_vector[i+1] * return_vector[p-i]
+    #print(len(return_vector))
+    for i in range(0, p-1):
+        phi_i =  phi_vector[i+1]
+        r_t_i = return_vector[p-i-1]
+        signal += a * phi_i * r_t_i
+        
     return signal
