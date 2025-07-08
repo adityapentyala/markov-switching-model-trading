@@ -1,3 +1,5 @@
+import numpy as np
+
 def calc_del(alpha, beta):
     return 1-alpha-beta
 
@@ -39,10 +41,13 @@ def generate_ar_weights(alpha, beta, mu_a, mu_b, sigma_a, sigma_b, p):
 
 def indicator_signal(phi_vector, return_vector, p, a=1):
     signal = 0
-    #print(len(return_vector))
-    for i in range(0, p-1):
+    #print(return_vector)
+    #print(phi_vector)
+    for i in range(0, p):
         phi_i =  phi_vector[i+1]
         r_t_i = return_vector[p-i-1]
         signal += a * phi_i * r_t_i
-        
+        print(phi_i, r_t_i, signal, end=" ")
+        print()
+    #print(np.dot(phi_vector[1:], return_vector.T))
     return signal

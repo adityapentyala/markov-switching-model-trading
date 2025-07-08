@@ -5,7 +5,7 @@ def get_msm(data, order=1, n_regimes=2):
     msm = MarkovAutoregression(data, n_regimes, order).fit()
     return msm
 
-def identify_bull_bear_states(df, threshold=0.15):
+def identify_bull_bear_states(df, threshold=0.05):
     #df = df.sort_values('Date').reset_index(drop=True)
     df['Cumulative returns'] = (1 + df['returns']).cumprod() - 1
 
@@ -41,6 +41,7 @@ def identify_bull_bear_states(df, threshold=0.15):
 
     df['State'] = states
     df['Turning Point'] = turning_points
+    print(sum(turning_points), len(turning_points))
 
     # Calculate mean and std deviation for each state
     stats = df.groupby('State')['returns'].agg(['mean', 'std']).reset_index()
