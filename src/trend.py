@@ -5,21 +5,27 @@ import matplotlib.pyplot as plt
 
 def generate_signals(data, ar_weights):
     signals = []
-    for i in range(0, len(data)-20):
-        print("\n\n this is signal", i, "\n\n")
-        signal = indicator_signal(ar_weights, np.asarray(data['returns'][i:i+20].reset_index(drop=True)), p=20, a=25)
+    for i in range(0, len(data)):
+        #print("\n\n this is signal", i, "\n\n")
+        if i<20:
+            signals.append(np.nan)
+            continue
+        #print(np.asarray(data['returns'][i-20:i]))
+        signal = indicator_signal(ar_weights, np.asarray(data['returns'][i-20:i]), p=20, a=10)
         signals.append(signal)
     return signals
 
 
-def get_action_dates(data, signals):
+def get_action_dates(data, signals, threshold=0):
     buy_dates = []
     sell_dates = []
     for i in range(0, len(signals)):
-        if signals[i] > 0:
-            buy_dates.append(data['date'][20+i])
-        elif signals[i] < 0:
-            sell_dates.append(data['date'][20+i])
+        if signals[i] == np.nan:
+            continue
+        if signals[i] > threshold:
+            buy_dates.append(data['date'][i])
+        elif signals[i] < threshold:
+            sell_dates.append(data['date'][i])
     return buy_dates, sell_dates
 
 def plot_actions(data, buy_dates, sell_dates, signals, n_dates=40, n_actions=10):

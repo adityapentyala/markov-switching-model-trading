@@ -47,7 +47,7 @@ def indicator_signal(phi_vector, return_vector, p, a=1):
         phi_i =  phi_vector[i+1]
         r_t_i = return_vector[p-i-1]
         signal += a * phi_i * r_t_i
-        print(phi_i, r_t_i, signal, end=" ")
-        print()
+        #print(phi_i, r_t_i, signal, end=" ")
+        #print()
     #print(np.dot(phi_vector[1:], return_vector.T))
     return signal

@@ -5,7 +5,7 @@ def get_msm(data, order=1, n_regimes=2):
     msm = MarkovAutoregression(data, n_regimes, order).fit()
     return msm
 
-def identify_bull_bear_states(df, threshold=0.05):
+def identify_bull_bear_states(df, threshold=0.2):
     #df = df.sort_values('Date').reset_index(drop=True)
     df['Cumulative returns'] = (1 + df['returns']).cumprod() - 1
 
