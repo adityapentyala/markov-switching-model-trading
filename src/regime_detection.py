@@ -329,6 +329,7 @@ class BBSeries(object):
         peaks = []
         for i in self.series.index[width:-width]:
             if max(self.series[i - width : i + width]) == self.series[i]:
+                #print(i)
                 peaks.append(TurningPoint(i, "P", self.series[i]))
         return peaks
 
@@ -343,6 +344,7 @@ class BBSeries(object):
         troughs = []
         for i in self.series.index[width:-width]:
             if min(self.series[i - width : i + width]) == self.series[i]:
+                #print(i)
                 troughs.append(TurningPoint(i, "T", self.series[i]))
         return troughs
 
@@ -473,11 +475,11 @@ def dating(
     width=5,
     min_dur=16,
     min_pha=5,
-    min_boudary=2,
+    min_boudary=5,
     threshold=3.5,
     spencer=False,
     rm_outliers=False,
-    verbose=False,
+    verbose=True,
 ):
     """
     Bry and Boschan dating process for identifying turning points
@@ -523,3 +525,4 @@ def assign_regimes(df, turningpoints):
             extrema_count+=1 if extrema_count!=len(turningpoints)-1 else extrema_count
         states.append(curr_regime)
     df['State'] = states
+    print(extrema_count)
